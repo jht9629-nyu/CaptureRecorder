@@ -1,5 +1,11 @@
 #  MovieRecorder
 
+## filtered-video-recorder-app.swift
+
+In AVFoundation AVCaptureSession AVCaptureFileOutputRecordingDelegate correctly apply filters to sample in captureOutput
+privide a swiftui app example of this
+
+nothing recorded
 
 ## video-recorder-with-effects-1.swift
 

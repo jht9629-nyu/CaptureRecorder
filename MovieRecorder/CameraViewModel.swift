@@ -1,104 +1,20 @@
+//
+//  CameraViewModel.swift
+//  MovieRecorder
+//
+//  Created by jht2 on 3/18/25.
+//
+
 import SwiftUI
 import AVFoundation
 import Photos
 
-struct ContentView: View {
-  @StateObject private var cameraViewModel = CameraViewModel()
-  @State private var selectedEffect: VideoEffect = .normal
-  @State private var isRecording = false
-  @State private var showingSavedAlert = false
-  
-  var body: some View {
-    ZStack {
-      // Camera preview
-      CameraPreviewView(session: cameraViewModel.session)
-        .edgesIgnoringSafeArea(.all)
-      
-      VStack {
-        Spacer()
-        
-        // Effect selector
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 20) {
-            ForEach(VideoEffect.allCases, id: \.self) { effect in
-              Button(action: {
-                selectedEffect = effect
-                cameraViewModel.changeEffect(to: effect)
-              }) {
-                Text(effect.rawValue)
-                  .padding(8)
-                  .background(selectedEffect == effect ? Color.blue : Color.gray.opacity(0.7))
-                  .foregroundColor(.white)
-                  .cornerRadius(8)
-              }
-            }
-          }
-          .padding()
-        }
-        .background(Color.black.opacity(0.5))
-        
-        // Record button
-        Button(action: {
-          if isRecording {
-            cameraViewModel.stopRecording()
-          } else {
-            cameraViewModel.startRecording()
-          }
-          isRecording.toggle()
-        }) {
-          Circle()
-            .fill(isRecording ? Color.red : Color.white)
-            .frame(width: 70, height: 70)
-            .padding()
-            .overlay(
-              Circle()
-                .stroke(Color.white, lineWidth: 2)
-                .frame(width: 80, height: 80)
-            )
-        }
-        .padding(.bottom, 30)
-      }
-    }
-    .onAppear {
-      cameraViewModel.checkPermissions()
-      cameraViewModel.setupSession()
-    }
-    .alert(isPresented: $showingSavedAlert) {
-      Alert(title: Text("Success"), message: Text("Video saved to your photo library"), dismissButton: .default(Text("OK")))
-    }
-    .onReceive(cameraViewModel.$videoSaved) { saved in
-      if saved {
-        showingSavedAlert = true
-        cameraViewModel.videoSaved = false
-      }
-    }
-  }
-}
-
-enum VideoEffect: String, CaseIterable {
-  case normal = "Normal"
-  case sepia = "Sepia"
-  case mono = "Mono"
-  case comic = "Comic"
-  case pixellate = "Pixellate"
-  case vignette = "Vignette"
-  
-  var filterName: String? {
-    switch self {
-    case .normal: return nil
-    case .sepia: return "CISepiaTone"
-    case .mono: return "CIPhotoEffectMono"
-    case .comic: return "CIComicEffect"
-    case .pixellate: return "CIPixellate"
-    case .vignette: return "CIVignette"
-    }
-  }
-}
 
 class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   @Published var session = AVCaptureSession()
   @Published var videoSaved = false
-  
+  @Published var previewImage: UIImage?
+
   var videoOutput: AVCaptureMovieFileOutput?
   var videoDataOutput: AVCaptureVideoDataOutput?
   private var videoInput: AVCaptureDeviceInput?
@@ -256,7 +172,7 @@ extension CameraViewModel: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         if let outputImage = filter.outputImage {
           filteredImage = outputImage
-          print("outputImage = filter.outputImage")
+//          print("outputImage = filter.outputImage")
         } else {
           print("no filter.outputImage")
         }
@@ -272,28 +188,15 @@ extension CameraViewModel: AVCaptureVideoDataOutputSampleBufferDelegate {
       print("no context")
       return
     }
-    context.render(filteredImage, to: pixelBuffer)
-  }
-}
+//    context.render(filteredImage, to: pixelBuffer)
+    
+    // Create UIImage for preview
+    if let cgImage = context.createCGImage(filteredImage, from: filteredImage.extent) {
+      let uiImage = UIImage(cgImage: cgImage)
+      DispatchQueue.main.async {
+        self.previewImage = uiImage
+      }
+    }
 
-// MARK: - SwiftUI View for Camera Preview
-struct CameraPreviewView: UIViewRepresentable {
-  let session: AVCaptureSession
-  
-  func makeUIView(context: Context) -> UIView {
-    let view = UIView(frame: UIScreen.main.bounds)
-    let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-    previewLayer.frame = view.bounds
-    previewLayer.videoGravity = .resizeAspectFill
-    view.layer.addSublayer(previewLayer)
-    return view
-  }
-  
-  func updateUIView(_ uiView: UIView, context: Context) {}
-}
-
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
   }
 }
