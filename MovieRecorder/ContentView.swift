@@ -5,39 +5,39 @@ import AVFoundation
 import Photos
 
 struct ContentView: View {
-  @StateObject private var cameraViewModel = CameraViewModel()
-  @State private var selectedEffect: VideoEffect = .normal
+  @StateObject private var model = Model()
+//  @State private var selectedEffect: VideoEffect = .normal
   @State private var isRecording = false
-  @State private var showingSavedAlert = false
+//  @State private var showingSavedAlert = false
   
   var body: some View {
     ZStack {
       // Camera preview
-      CameraPreviewView(session: cameraViewModel.session)
+      CameraPreviewView(session: model.session)
         .edgesIgnoringSafeArea(.all)
       
       // Filtered image overlay
-      //      if let previewImage = cameraViewModel.previewImage {
-      //        Image(uiImage: previewImage)
-      //          .resizable()
-      //          .aspectRatio(contentMode: .fill)
-      //          .edgesIgnoringSafeArea(.all)
-      //      }
+        if let previewImage = model.previewImage {
+          Image(uiImage: previewImage)
+            .resizable()
+//            .aspectRatio(contentMode: .fit) // rotated 90
+          //            .aspectRatio(contentMode: .fill) // smashes buttons below
+          // .edgesIgnoringSafeArea(.all)
+        }
       
       VStack {
         Spacer()
-        
         // Effect selector
         ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 20) {
+          HStack(spacing: 2) {
             ForEach(VideoEffect.allCases, id: \.self) { effect in
               Button(action: {
-                selectedEffect = effect
-                cameraViewModel.changeEffect(to: effect)
+                model.selectedEffect = effect
+                model.changeEffect(to: effect)
               }) {
                 Text(effect.rawValue)
                   .padding(8)
-                  .background(selectedEffect == effect ? Color.blue : Color.gray.opacity(0.7))
+                  .background(model.selectedEffect == effect ? Color.blue : Color.gray.opacity(0.7))
                   .foregroundColor(.white)
                   .cornerRadius(8)
               }
@@ -50,9 +50,12 @@ struct ContentView: View {
         // Record button
         Button(action: {
           if isRecording {
-            cameraViewModel.stopRecording()
+            model.stopRecording()
+            model.previewImage = nil
           } else {
-            cameraViewModel.startRecording()
+            model.startRecording()
+            model.changeEffect(to: .normal)
+            model.previewImage = nil
           }
           isRecording.toggle()
         }) {
@@ -66,14 +69,14 @@ struct ContentView: View {
                 .frame(width: 80, height: 80)
             )
         }
-        .padding(.bottom, 30)
+        .padding(.bottom, 5)
       }
     }
     .onAppear {
-      cameraViewModel.checkPermissions()
-      cameraViewModel.setupSession()
+      model.checkPermissions()
+      model.setupSession()
     }
-    .alert("Video saved to your photo library", isPresented: $showingSavedAlert) {
+    .alert("Video saved to your photo library", isPresented: $model.showingSavedAlert) {
 //      Alert(title: Text("Success"),
 //            message: Text("Video saved to your photo library"))
     }
@@ -81,34 +84,15 @@ struct ContentView: View {
 //      Alert(title: Text("Success"),
 //            message: Text("Video saved to your photo library"))
 //    }
-    .onReceive(cameraViewModel.$videoSaved) { saved in
+    .onReceive(model.$videoSaved) { saved in
       if saved {
-        showingSavedAlert = true
-        cameraViewModel.videoSaved = false
+        model.showingSavedAlert = true
+        model.videoSaved = false
       }
     }
   }
 }
 
-enum VideoEffect: String, CaseIterable {
-  case normal = "Normal"
-  case sepia = "Sepia"
-  case mono = "Mono"
-  case comic = "Comic"
-  case pixellate = "Pixellate"
-  case vignette = "Vignette"
-  
-  var filterName: String? {
-    switch self {
-    case .normal: return nil
-    case .sepia: return "CISepiaTone"
-    case .mono: return "CIPhotoEffectMono"
-    case .comic: return "CIComicEffect"
-    case .pixellate: return "CIPixellate"
-    case .vignette: return "CIVignette"
-    }
-  }
-}
 
 
 struct ContentView_Previews: PreviewProvider {

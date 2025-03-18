@@ -12,8 +12,9 @@
 		AB6AA09F2D8A1CB4002C3BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */; };
 		AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */; };
 		AB6AA0AD2D8A276A002C3BE6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */; };
-		AB6AA0C62D8A2BB4002C3BE6 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0C52D8A2BB4002C3BE6 /* CameraViewModel.swift */; };
+		AB6AA0C62D8A2BB4002C3BE6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0C52D8A2BB4002C3BE6 /* Model.swift */; };
 		AB6AA0C82D8A2BDD002C3BE6 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */; };
+		AB6AA0CA2D8A3EFF002C3BE6 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0C92D8A3EFF002C3BE6 /* FrameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +25,9 @@
 		AB6AA0992D8A1CB4002C3BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRecorderApp.swift; sourceTree = "<group>"; };
 		AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		AB6AA0C52D8A2BB4002C3BE6 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		AB6AA0C52D8A2BB4002C3BE6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		AB6AA0C92D8A3EFF002C3BE6 /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +70,9 @@
 			isa = PBXGroup;
 			children = (
 				AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */,
+				AB6AA0C92D8A3EFF002C3BE6 /* FrameView.swift */,
 				AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */,
-				AB6AA0C52D8A2BB4002C3BE6 /* CameraViewModel.swift */,
+				AB6AA0C52D8A2BB4002C3BE6 /* Model.swift */,
 				AB6AA0972D8A1CB4002C3BE6 /* Preview Content */,
 				AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */,
 				AB6AA0992D8A1CB4002C3BE6 /* Info.plist */,
@@ -155,7 +158,8 @@
 				AB6AA0C82D8A2BDD002C3BE6 /* CameraPreviewView.swift in Sources */,
 				AB6AA0AD2D8A276A002C3BE6 /* ContentView.swift in Sources */,
 				AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */,
-				AB6AA0C62D8A2BB4002C3BE6 /* CameraViewModel.swift in Sources */,
+				AB6AA0CA2D8A3EFF002C3BE6 /* FrameView.swift in Sources */,
+				AB6AA0C62D8A2BB4002C3BE6 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,10 +10,32 @@ import AVFoundation
 import Photos
 
 
-class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
+enum VideoEffect: String, CaseIterable {
+  case normal = "Normal"
+  case pixellate = "Pixellate"
+  case comic = "Comic"
+  //  case sepia = "Sepia"
+  //  case mono = "Mono"
+  //  case vignette = "Vignette"
+  
+  var filterName: String? {
+    switch self {
+    case .normal: return nil
+    case .pixellate: return "CIPixellate"
+    case .comic: return "CIComicEffect"
+      //    case .sepia: return "CISepiaTone"
+      //    case .mono: return "CIPhotoEffectMono"
+      //    case .vignette: return "CIVignette"
+    }
+  }
+}
+
+class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   @Published var session = AVCaptureSession()
   @Published var videoSaved = false
   @Published var previewImage: UIImage?
+  @Published var showingSavedAlert = false
+  @Published var selectedEffect: VideoEffect = .normal
 
   var videoOutput: AVCaptureMovieFileOutput?
   var videoDataOutput: AVCaptureVideoDataOutput?
@@ -57,7 +79,9 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
     session.beginConfiguration()
     
     // Add video input
-    if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+    if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                            for: .video,
+                                            position: .front) {
       do {
         videoInput = try AVCaptureDeviceInput(device: device)
         if session.canAddInput(videoInput!) {
@@ -69,16 +93,16 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
     }
     
     // Add audio input
-    if let audioDevice = AVCaptureDevice.default(for: .audio) {
-      do {
-        let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-        if session.canAddInput(audioInput) {
-          session.addInput(audioInput)
-        }
-      } catch {
-        print("Error setting up audio input: \(error)")
-      }
-    }
+//    if let audioDevice = AVCaptureDevice.default(for: .audio) {
+//      do {
+//        let audioInput = try AVCaptureDeviceInput(device: audioDevice)
+//        if session.canAddInput(audioInput) {
+//          session.addInput(audioInput)
+//        }
+//      } catch {
+//        print("Error setting up audio input: \(error)")
+//      }
+//    }
     
     // Add video data output for processing frames
     videoDataOutput = AVCaptureVideoDataOutput()
@@ -102,6 +126,8 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
   
   func changeEffect(to effect: VideoEffect) {
     currentEffect = effect
+    selectedEffect = effect
+//    previewImage = nil
   }
   
   func startRecording() {
@@ -146,7 +172,7 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
 }
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-extension CameraViewModel: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
     guard currentEffect != .normal,
           let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
@@ -160,13 +186,13 @@ extension CameraViewModel: AVCaptureVideoDataOutputSampleBufferDelegate {
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         // Set additional parameters for specific filters
         switch currentEffect {
-        case .sepia:
-          filter.setValue(0.7, forKey: kCIInputIntensityKey)
         case .pixellate:
           filter.setValue(10, forKey: kCIInputScaleKey)
-        case .vignette:
-          filter.setValue(0.5, forKey: kCIInputIntensityKey)
-          filter.setValue(1.0, forKey: kCIInputRadiusKey)
+//        case .sepia:
+//          filter.setValue(0.7, forKey: kCIInputIntensityKey)
+//        case .vignette:
+//          filter.setValue(0.5, forKey: kCIInputIntensityKey)
+//          filter.setValue(1.0, forKey: kCIInputRadiusKey)
         default:
           break
         }
@@ -184,14 +210,13 @@ extension CameraViewModel: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     // Render filtered image back to the pixel buffer
-    guard let context = context else {
-      print("no context")
-      return
-    }
+    guard let context = context else { return  }
 //    context.render(filteredImage, to: pixelBuffer)
     
+//    let orientedImage = filteredImage.oriented(.up) // Change this based on the actual orientation
     // Create UIImage for preview
-    if let cgImage = context.createCGImage(filteredImage, from: filteredImage.extent) {
+//    if let cgImage = context.createCGImage(orientedImage, from: filteredImage.extent) {
+      if let cgImage = context.createCGImage(filteredImage, from: filteredImage.extent) {
       let uiImage = UIImage(cgImage: cgImage)
       DispatchQueue.main.async {
         self.previewImage = uiImage

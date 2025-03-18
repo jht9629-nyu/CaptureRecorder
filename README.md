@@ -1,16 +1,23 @@
 #  MovieRecorder
 
+## video-recorder-with-effects-1.swift
+
+- Movie recorded successfully
+- reduced effect to 3
+-
+- fail: effects not applied
+- fail: during effect, buttons shoved off screen
+- fail: effect preview affects layout
+
+>> https://chatgpt.com/c/67da0189-fe58-8002-8790-e60a12121373
+fix orientation of context.createCGImage
+
 ## filtered-video-recorder-app.swift
 
 In AVFoundation AVCaptureSession AVCaptureFileOutputRecordingDelegate correctly apply filters to sample in captureOutput
 privide a swiftui app example of this
 
 nothing recorded
-
-## video-recorder-with-effects-1.swift
-
-Movie recorded successfully
-Affects not applied
 
 ## video-recorder-with-effects-2.swift
 
