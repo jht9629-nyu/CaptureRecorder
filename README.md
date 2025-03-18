@@ -1,5 +1,13 @@
 #  MovieRecorder
 
+
+## video-recorder-with-effects-1.swift
+
+Movie recorded successfully
+Affects not applied
+
+## Details
+
 - https://claude.ai/chat/a6a7974f-915e-461a-b566-635b2ff08929
 
 swiftui code to record movie with video effect applied to each frame
@@ -19,5 +27,19 @@ This app has crashed because it attempted to access privacy-sensitive data witho
 >> Crash on record:
 
 Thread 1: "*** -[AVCaptureMovieFileOutput startRecordingToOutputFileURL:recordingDelegate:] No active/enabled connections"
+
+>> Filters not applied
+
+Initializer for conditional binding must have Optional type, not 'CIImage'
+
+    guard let ciImage = CIImage(cvPixelBuffer: pixelBuffer) else {
+      CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
+      return
+    }
+
+>> New crash
+
+*** Terminating app due to uncaught exception 'NSGenericException', reason: '*** -[AVCaptureSession startRunning] startRunning may not be called between calls to beginConfiguration and commitConfiguration'
+
 
 

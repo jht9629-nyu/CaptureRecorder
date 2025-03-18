@@ -8,33 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		AB6AA07E2D8A15E1002C3BE6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA07D2D8A15E1002C3BE6 /* README.md */; };
+		AB6AA09E2D8A1CB4002C3BE6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */; };
+		AB6AA09F2D8A1CB4002C3BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */; };
+		AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */; };
+		AB6AA0A72D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0A62D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AB6AA06A2D8A1590002C3BE6 /* MovieRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6AA07D2D8A15E1002C3BE6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AB6AA0992D8A1CB4002C3BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRecorderApp.swift; sourceTree = "<group>"; };
+		AB6AA0A62D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "video-recorder-with-effects-1.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AB6AA0822D8A18F9002C3BE6 /* Exceptions for "MovieRecorder" folder in "MovieRecorder" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = AB6AA0692D8A1590002C3BE6 /* MovieRecorder */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		AB6AA06C2D8A1590002C3BE6 /* MovieRecorder */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AB6AA0822D8A18F9002C3BE6 /* Exceptions for "MovieRecorder" folder in "MovieRecorder" target */,
-			);
-			path = MovieRecorder;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		AB6AA0672D8A1590002C3BE6 /* Frameworks */ = {
@@ -51,7 +39,7 @@
 			isa = PBXGroup;
 			children = (
 				AB6AA07D2D8A15E1002C3BE6 /* README.md */,
-				AB6AA06C2D8A1590002C3BE6 /* MovieRecorder */,
+				AB6AA09D2D8A1CB4002C3BE6 /* MovieRecorder */,
 				AB6AA06B2D8A1590002C3BE6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,6 +50,26 @@
 				AB6AA06A2D8A1590002C3BE6 /* MovieRecorder.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB6AA0972D8A1CB4002C3BE6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AB6AA09D2D8A1CB4002C3BE6 /* MovieRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				AB6AA0A62D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift */,
+				AB6AA0972D8A1CB4002C3BE6 /* Preview Content */,
+				AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */,
+				AB6AA0992D8A1CB4002C3BE6 /* Info.plist */,
+				AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */,
+			);
+			path = MovieRecorder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,9 +86,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				AB6AA06C2D8A1590002C3BE6 /* MovieRecorder */,
 			);
 			name = MovieRecorder;
 			packageProductDependencies = (
@@ -128,6 +133,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB6AA09E2D8A1CB4002C3BE6 /* Preview Assets.xcassets in Resources */,
+				AB6AA09F2D8A1CB4002C3BE6 /* Assets.xcassets in Resources */,
 				AB6AA07E2D8A15E1002C3BE6 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +146,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB6AA0A72D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift in Sources */,
+				AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
