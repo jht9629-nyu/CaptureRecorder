@@ -6,6 +6,14 @@
 Movie recorded successfully
 Affects not applied
 
+## video-recorder-with-effects-2.swift
+
+Crash on record
+
+## video-recorder-with-effects-3.swift
+
+Crash - no video preview
+
 ## Details
 
 - https://claude.ai/chat/a6a7974f-915e-461a-b566-635b2ff08929

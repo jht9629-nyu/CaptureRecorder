@@ -11,7 +11,7 @@
 		AB6AA09E2D8A1CB4002C3BE6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */; };
 		AB6AA09F2D8A1CB4002C3BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */; };
 		AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */; };
-		AB6AA0A72D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0A62D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift */; };
+		AB6AA0AB2D8A2398002C3BE6 /* video-recorder-with-effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0AA2D8A2398002C3BE6 /* video-recorder-with-effects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +21,7 @@
 		AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB6AA0992D8A1CB4002C3BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRecorderApp.swift; sourceTree = "<group>"; };
-		AB6AA0A62D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "video-recorder-with-effects-1.swift"; sourceTree = "<group>"; };
+		AB6AA0AA2D8A2398002C3BE6 /* video-recorder-with-effects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "video-recorder-with-effects.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 		AB6AA09D2D8A1CB4002C3BE6 /* MovieRecorder */ = {
 			isa = PBXGroup;
 			children = (
-				AB6AA0A62D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift */,
+				AB6AA0AA2D8A2398002C3BE6 /* video-recorder-with-effects.swift */,
 				AB6AA0972D8A1CB4002C3BE6 /* Preview Content */,
 				AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */,
 				AB6AA0992D8A1CB4002C3BE6 /* Info.plist */,
@@ -146,7 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB6AA0A72D8A1DAF002C3BE6 /* video-recorder-with-effects-1.swift in Sources */,
+				AB6AA0AB2D8A2398002C3BE6 /* video-recorder-with-effects.swift in Sources */,
 				AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
