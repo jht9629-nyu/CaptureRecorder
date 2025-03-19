@@ -1,8 +1,8 @@
 //
-//  CaptureRecoderApp.swift
-//  CaptureRecoder
+//  MovieRecorderApp.swift
+//  MovieRecorder
 //
-//  Created by jht2 on 3/19/25.
+//  Created by jht2 on 3/18/25.
 //
 
 import SwiftUI
