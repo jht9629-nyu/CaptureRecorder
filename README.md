@@ -13,6 +13,8 @@
 fix orientation of context.createCGImage
 
 
+>> Added startRecording_asset from MovieRecordTest
+
 >> FrameView
 from: [08-FilterTheWorld](https://github.com/mobilelabclass-itp/08-FilterTheWorld)
 

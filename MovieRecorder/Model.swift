@@ -150,7 +150,7 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
     let tempFilePath = (tempDirectory as NSString).appendingPathComponent("video.mp4")
     let fileURL = URL(fileURLWithPath: tempFilePath)
     
-    print("startRecording fileURL: \(fileURL)")
+//    print("startRecording fileURL: \(fileURL)")
     
     // Remove existing file
     if FileManager.default.fileExists(atPath: tempFilePath) {
@@ -169,13 +169,15 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
     
     let format = videoDevice.activeFormat.formatDescription
     
-    print("videoDimensions format: \(format)")
+//    print("videoDimensions format: \(format)")
     
     return CMVideoFormatDescriptionGetDimensions(format)
   }
 
   func startRecording_asset(_ fileURL: URL ) {
-    print("startRecording_asset fileURL: \(fileURL)")
+    
+//    print("startRecording_asset fileURL: \(fileURL)")
+    
     videoURL = fileURL;
     guard let videoURL = videoURL else { return }
     
@@ -187,7 +189,8 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
       let dimensions = videoDimensions
       let width = Int(dimensions.width)
       let height = Int(dimensions.height)
-
+      print("startRecording_asset width: \(width) height: \(height)")
+      
       // Video settings
       let videoSettings: [String: Any] = [
         AVVideoCodecKey: AVVideoCodecType.h264,
