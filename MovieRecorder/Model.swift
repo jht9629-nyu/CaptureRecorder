@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import Photos
+import CoreImage.CIFilterBuiltins
 
 
 enum VideoEffect: String, CaseIterable {
@@ -46,6 +47,15 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
   private var context: CIContext?
   
+  private var assetWriter: AVAssetWriter?
+//  private var videoWriterInput: AVAssetWriterInput?
+  private var audioWriterInput: AVAssetWriterInput?
+//  private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
+  
+  private var currentFilter: FilterType = .normal
+
+  private var startTime: CMTime?
+
   override init() {
     super.init()
     context = CIContext(options: nil)
@@ -224,6 +234,98 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
       DispatchQueue.main.async {
         self.previewImage = cgImage
       }
+    }
+  }
+}
+
+
+//
+
+// Enum for available filters
+enum FilterType: String, CaseIterable {
+  case normal = "Normal"
+  case sepia = "Sepia"
+  case noir = "Noir"
+  case comic = "Comic"
+  case thermal = "Thermal"
+  case vibrant = "Vibrant"
+}
+
+extension Model {
+  func processVideoFrame(_ sampleBuffer: CMSampleBuffer) {
+    guard let videoInput = videoWriterInput, videoInput.isReadyForMoreMediaData,
+          let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+    
+    let currentSampleTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+    
+    if startTime == nil {
+      startTime = currentSampleTime
+    }
+    
+    let adjustedTime = CMTimeSubtract(currentSampleTime, startTime ?? .zero)
+    
+    // Apply filter based on selection
+    var filteredBuffer = pixelBuffer
+    
+    if currentFilter != .normal {
+      // Create CIImage from pixel buffer
+      let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+      var filteredImage: CIImage?
+      
+      switch currentFilter {
+      case .sepia:
+        let filter = CIFilter.sepiaTone()
+        filter.inputImage = ciImage
+        filter.intensity = 0.8
+        filteredImage = filter.outputImage
+        
+      case .noir:
+        let filter = CIFilter.photoEffectNoir()
+        filter.inputImage = ciImage
+        filteredImage = filter.outputImage
+        
+      case .comic:
+        let filter = CIFilter.comicEffect()
+        filter.inputImage = ciImage
+        filteredImage = filter.outputImage
+        
+      case .thermal:
+        let filter = CIFilter.falseColor()
+        filter.inputImage = ciImage
+        filter.setValue(CIColor.red, forKey: "inputColor0")
+        filter.setValue(CIColor.yellow, forKey: "inputColor1")
+        filteredImage = filter.outputImage
+        
+      case .vibrant:
+        let filter = CIFilter.vibrance()
+        filter.inputImage = ciImage
+        filter.setValue(50, forKey: "inputAmount")
+        filteredImage = filter.outputImage
+        
+      default:
+        filteredImage = ciImage
+      }
+      
+      if let filteredImage = filteredImage {
+        // Create a new pixel buffer
+        var newPixelBuffer: CVPixelBuffer?
+        CVPixelBufferCreate(kCFAllocatorDefault,
+                            CVPixelBufferGetWidth(pixelBuffer),
+                            CVPixelBufferGetHeight(pixelBuffer),
+                            kCVPixelFormatType_32BGRA,
+                            nil,
+                            &newPixelBuffer)
+        
+        if let newPixelBuffer = newPixelBuffer {
+          context!.render(filteredImage, to: newPixelBuffer)
+          filteredBuffer = newPixelBuffer
+        }
+      }
+    }
+    
+    // Append filtered buffer to asset writer
+    if let pixelBufferAdaptor = pixelBufferAdaptor {
+      pixelBufferAdaptor.append(filteredBuffer, withPresentationTime: adjustedTime)
     }
   }
 }
