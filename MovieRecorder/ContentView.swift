@@ -16,23 +16,14 @@ struct ContentView: View {
 //      CameraPreviewView(session: model.session)
 //        .edgesIgnoringSafeArea(.all)
       
-      // Filtered image overlay
-//        if let previewImage = model.previewImage {
       FrameView(image: model.previewImage)
         .edgesIgnoringSafeArea(.all)
 
-//          Image(uiImage: previewImage)
-//            .resizable()
-//            .aspectRatio(contentMode: .fit) // rotated 90
-          //            .aspectRatio(contentMode: .fill) // smashes buttons below
-          // .edgesIgnoringSafeArea(.all)
-//        }
-      
       VStack {
         Spacer()
         // Effect selector
         ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 2) {
+          HStack(spacing: 5) {
             ForEach(VideoEffect.allCases, id: \.self) { effect in
               Button(action: {
                 model.selectedEffect = effect
@@ -54,11 +45,9 @@ struct ContentView: View {
         Button(action: {
           if isRecording {
             model.stopRecording()
-            model.previewImage = nil
           } else {
             model.startRecording()
-            model.changeEffect(to: .normal)
-            model.previewImage = nil
+//            model.changeEffect(to: .normal)
           }
           isRecording.toggle()
         }) {

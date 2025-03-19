@@ -70,13 +70,13 @@
 		AB6AA09D2D8A1CB4002C3BE6 /* MovieRecorder */ = {
 			isa = PBXGroup;
 			children = (
-				AB6AA0CB2D8A41AA002C3BE6 /* MovieRecorder.entitlements */,
 				AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */,
 				AB6AA0C92D8A3EFF002C3BE6 /* FrameView.swift */,
 				AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */,
 				AB6AA0C52D8A2BB4002C3BE6 /* Model.swift */,
 				AB6AA0972D8A1CB4002C3BE6 /* Preview Content */,
 				AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */,
+				AB6AA0CB2D8A41AA002C3BE6 /* MovieRecorder.entitlements */,
 				AB6AA0992D8A1CB4002C3BE6 /* Info.plist */,
 				AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */,
 			);
