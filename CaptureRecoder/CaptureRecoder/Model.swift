@@ -14,6 +14,7 @@ import CoreImage.CIFilterBuiltins
 enum VideoEffect: String, CaseIterable {
   case normal = "Normal"
   case pixellate = "Pixellate"
+  case thermal = "Thermal"
   case comic = "Comic"
   case sepia = "Sepia"
   case mono = "Mono"
@@ -23,6 +24,7 @@ enum VideoEffect: String, CaseIterable {
     switch self {
     case .normal: return nil
     case .pixellate: return "CIPixellate"
+    case .thermal: return "CIFalseColor"
     case .comic: return "CIComicEffect"
     case .sepia: return "CISepiaTone"
     case .mono: return "CIPhotoEffectMono"
@@ -346,6 +348,9 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
         case .vignette:
           filter.setValue(0.5, forKey: kCIInputIntensityKey)
           filter.setValue(1.0, forKey: kCIInputRadiusKey)
+        case .thermal:
+          filter.setValue(CIColor.red, forKey: "inputColor0")
+          filter.setValue(CIColor.yellow, forKey: "inputColor1")
         default:
           break
         }
