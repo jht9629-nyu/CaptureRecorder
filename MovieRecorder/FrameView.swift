@@ -7,11 +7,11 @@
 
 import SwiftUI
 
+// from: [08-FilterTheWorld](https://github.com/mobilelabclass-itp/08-FilterTheWorld)
+
 struct FrameView: View {
   var image: CGImage?
-  
   private let label = Text("Video feed")
-  
   var body: some View {
     if let image = image {
       GeometryReader { geometry in

@@ -33,7 +33,7 @@ enum VideoEffect: String, CaseIterable {
 class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   @Published var session = AVCaptureSession()
   @Published var videoSaved = false
-  @Published var previewImage: UIImage?
+  @Published var previewImage: CGImage?
   @Published var showingSavedAlert = false
   @Published var selectedEffect: VideoEffect = .normal
 
@@ -174,7 +174,7 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    guard currentEffect != .normal,
+    guard  // currentEffect != .normal,
           let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
     else { return }
     let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -217,9 +217,9 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
     // Create UIImage for preview
 //    if let cgImage = context.createCGImage(orientedImage, from: filteredImage.extent) {
       if let cgImage = context.createCGImage(filteredImage, from: filteredImage.extent) {
-      let uiImage = UIImage(cgImage: cgImage)
+//      let uiImage = UIImage(cgImage: cgImage)
       DispatchQueue.main.async {
-        self.previewImage = uiImage
+        self.previewImage = cgImage
       }
     }
 

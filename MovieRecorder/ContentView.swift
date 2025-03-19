@@ -13,17 +13,20 @@ struct ContentView: View {
   var body: some View {
     ZStack {
       // Camera preview
-      CameraPreviewView(session: model.session)
-        .edgesIgnoringSafeArea(.all)
+//      CameraPreviewView(session: model.session)
+//        .edgesIgnoringSafeArea(.all)
       
       // Filtered image overlay
-        if let previewImage = model.previewImage {
-          Image(uiImage: previewImage)
-            .resizable()
+//        if let previewImage = model.previewImage {
+      FrameView(image: model.previewImage)
+        .edgesIgnoringSafeArea(.all)
+
+//          Image(uiImage: previewImage)
+//            .resizable()
 //            .aspectRatio(contentMode: .fit) // rotated 90
           //            .aspectRatio(contentMode: .fill) // smashes buttons below
           // .edgesIgnoringSafeArea(.all)
-        }
+//        }
       
       VStack {
         Spacer()
