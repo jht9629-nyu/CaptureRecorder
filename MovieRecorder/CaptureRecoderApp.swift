@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct MovieRecorderApp: App {
+struct CaptureRecoderApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

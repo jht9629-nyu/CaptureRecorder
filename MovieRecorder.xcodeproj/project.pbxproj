@@ -10,7 +10,7 @@
 		AB6AA07E2D8A15E1002C3BE6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA07D2D8A15E1002C3BE6 /* README.md */; };
 		AB6AA09E2D8A1CB4002C3BE6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */; };
 		AB6AA09F2D8A1CB4002C3BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */; };
-		AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */; };
+		AB6AA0A12D8A1CB4002C3BE6 /* CaptureRecoderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA09A2D8A1CB4002C3BE6 /* CaptureRecoderApp.swift */; };
 		AB6AA0AD2D8A276A002C3BE6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */; };
 		AB6AA0C62D8A2BB4002C3BE6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0C52D8A2BB4002C3BE6 /* Model.swift */; };
 		AB6AA0C82D8A2BDD002C3BE6 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */; };
@@ -23,7 +23,7 @@
 		AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB6AA0992D8A1CB4002C3BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRecorderApp.swift; sourceTree = "<group>"; };
+		AB6AA09A2D8A1CB4002C3BE6 /* CaptureRecoderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureRecoderApp.swift; sourceTree = "<group>"; };
 		AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AB6AA0C52D8A2BB4002C3BE6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -70,6 +70,7 @@
 		AB6AA09D2D8A1CB4002C3BE6 /* MovieRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				AB6AA09A2D8A1CB4002C3BE6 /* CaptureRecoderApp.swift */,
 				AB6AA0AC2D8A276A002C3BE6 /* ContentView.swift */,
 				AB6AA0C92D8A3EFF002C3BE6 /* FrameView.swift */,
 				AB6AA0C72D8A2BDD002C3BE6 /* CameraPreviewView.swift */,
@@ -78,7 +79,6 @@
 				AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */,
 				AB6AA0CB2D8A41AA002C3BE6 /* MovieRecorder.entitlements */,
 				AB6AA0992D8A1CB4002C3BE6 /* Info.plist */,
-				AB6AA09A2D8A1CB4002C3BE6 /* MovieRecorderApp.swift */,
 			);
 			path = MovieRecorder;
 			sourceTree = "<group>";
@@ -159,7 +159,7 @@
 			files = (
 				AB6AA0C82D8A2BDD002C3BE6 /* CameraPreviewView.swift in Sources */,
 				AB6AA0AD2D8A276A002C3BE6 /* ContentView.swift in Sources */,
-				AB6AA0A12D8A1CB4002C3BE6 /* MovieRecorderApp.swift in Sources */,
+				AB6AA0A12D8A1CB4002C3BE6 /* CaptureRecoderApp.swift in Sources */,
 				AB6AA0CA2D8A3EFF002C3BE6 /* FrameView.swift in Sources */,
 				AB6AA0C62D8A2BB4002C3BE6 /* Model.swift in Sources */,
 			);
