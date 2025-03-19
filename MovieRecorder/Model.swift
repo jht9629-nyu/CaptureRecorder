@@ -38,6 +38,8 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   @Published var showingSavedAlert = false
   @Published var selectedEffect: VideoEffect = .normal
   
+  private var videoDevice: AVCaptureDevice?
+
   var videoOutput: AVCaptureMovieFileOutput?
   var videoDataOutput: AVCaptureVideoDataOutput?
   private var videoInput: AVCaptureDeviceInput?
@@ -90,19 +92,23 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   func setupSession() {
     session.beginConfiguration()
     
+    // Video input
+    guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else { return }
+    self.videoDevice = videoDevice
+
     // Add video input
-    if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                            for: .video,
-                                            position: .front) {
+//    if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
+//                                            for: .video,
+//                                            position: .front) {
       do {
-        videoInput = try AVCaptureDeviceInput(device: device)
+        videoInput = try AVCaptureDeviceInput(device: videoDevice)
         if session.canAddInput(videoInput!) {
           session.addInput(videoInput!)
         }
       } catch {
         print("Error setting up video input: \(error)")
       }
-    }
+//    }
     
     // Add video data output for processing frames
     videoDataOutput = AVCaptureVideoDataOutput()
@@ -155,6 +161,19 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
     startRecording_asset(fileURL);
   }
   
+  // Video dimensions - use device native resolution
+  private var videoDimensions: CMVideoDimensions {
+    guard let videoDevice = videoDevice else {
+      return CMVideoDimensions(width: 1920, height: 1080)
+    }
+    
+    let format = videoDevice.activeFormat.formatDescription
+    
+    print("videoDimensions format: \(format)")
+    
+    return CMVideoFormatDescriptionGetDimensions(format)
+  }
+
   func startRecording_asset(_ fileURL: URL ) {
     print("startRecording_asset fileURL: \(fileURL)")
     videoURL = fileURL;
@@ -164,11 +183,19 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
       // Create asset writer
       assetWriter = try AVAssetWriter(outputURL: videoURL, fileType: .mp4)
       
+      // Get the natural dimensions from the camera
+      let dimensions = videoDimensions
+      let width = Int(dimensions.width)
+      let height = Int(dimensions.height)
+
       // Video settings
       let videoSettings: [String: Any] = [
         AVVideoCodecKey: AVVideoCodecType.h264,
-        AVVideoWidthKey: 1920,
-        AVVideoHeightKey: 1080
+        AVVideoWidthKey: height, // Swap for portrait
+        AVVideoHeightKey: width, // Swap for portrait
+        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
+//        AVVideoWidthKey: 1920,
+//        AVVideoHeightKey: 1080
       ]
       
       // Create video writer input
@@ -178,8 +205,10 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
       // Create pixel buffer adaptor for filter application
       let sourcePixelBufferAttributes: [String: Any] = [
         kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA),
-        kCVPixelBufferWidthKey as String: 1920,
-        kCVPixelBufferHeightKey as String: 1080
+        kCVPixelBufferWidthKey as String: width,
+        kCVPixelBufferHeightKey as String: height
+//        kCVPixelBufferWidthKey as String: 1920,
+//        kCVPixelBufferHeightKey as String: 1080
       ]
       
       pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
