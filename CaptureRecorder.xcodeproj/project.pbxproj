@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AB6AA06A2D8A1590002C3BE6 /* MovieRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB6AA06A2D8A1590002C3BE6 /* CaptureRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6AA07D2D8A15E1002C3BE6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AB6AA0962D8A1CB4002C3BE6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AB6AA0982D8A1CB4002C3BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		AB6AA06B2D8A1590002C3BE6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB6AA06A2D8A1590002C3BE6 /* MovieRecorder.app */,
+				AB6AA06A2D8A1590002C3BE6 /* CaptureRecorder.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,9 +86,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AB6AA0692D8A1590002C3BE6 /* MovieRecorder */ = {
+		AB6AA0692D8A1590002C3BE6 /* CaptureRecorder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AB6AA0782D8A1591002C3BE6 /* Build configuration list for PBXNativeTarget "MovieRecorder" */;
+			buildConfigurationList = AB6AA0782D8A1591002C3BE6 /* Build configuration list for PBXNativeTarget "CaptureRecorder" */;
 			buildPhases = (
 				AB6AA0662D8A1590002C3BE6 /* Sources */,
 				AB6AA0672D8A1590002C3BE6 /* Frameworks */,
@@ -98,11 +98,11 @@
 			);
 			dependencies = (
 			);
-			name = MovieRecorder;
+			name = CaptureRecorder;
 			packageProductDependencies = (
 			);
 			productName = MovieRecorder;
-			productReference = AB6AA06A2D8A1590002C3BE6 /* MovieRecorder.app */;
+			productReference = AB6AA06A2D8A1590002C3BE6 /* CaptureRecorder.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -120,7 +120,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AB6AA0652D8A1590002C3BE6 /* Build configuration list for PBXProject "MovieRecorder" */;
+			buildConfigurationList = AB6AA0652D8A1590002C3BE6 /* Build configuration list for PBXProject "CaptureRecorder" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -134,7 +134,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AB6AA0692D8A1590002C3BE6 /* MovieRecorder */,
+				AB6AA0692D8A1590002C3BE6 /* CaptureRecorder */,
 			);
 		};
 /* End PBXProject section */
@@ -362,7 +362,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AB6AA0652D8A1590002C3BE6 /* Build configuration list for PBXProject "MovieRecorder" */ = {
+		AB6AA0652D8A1590002C3BE6 /* Build configuration list for PBXProject "CaptureRecorder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB6AA0762D8A1591002C3BE6 /* Debug */,
@@ -371,7 +371,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AB6AA0782D8A1591002C3BE6 /* Build configuration list for PBXNativeTarget "MovieRecorder" */ = {
+		AB6AA0782D8A1591002C3BE6 /* Build configuration list for PBXNativeTarget "CaptureRecorder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB6AA0792D8A1591002C3BE6 /* Debug */,
