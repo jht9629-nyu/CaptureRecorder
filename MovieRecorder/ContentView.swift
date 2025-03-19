@@ -47,7 +47,6 @@ struct ContentView: View {
             model.stopRecording()
           } else {
             model.startRecording()
-//            model.changeEffect(to: .normal)
           }
           isRecording.toggle()
         }) {
@@ -69,13 +68,7 @@ struct ContentView: View {
       model.setupSession()
     }
     .alert("Video saved to your photo library", isPresented: $model.showingSavedAlert) {
-//      Alert(title: Text("Success"),
-//            message: Text("Video saved to your photo library"))
     }
-//    .alert(isPresented: $showingSavedAlert) {
-//      Alert(title: Text("Success"),
-//            message: Text("Video saved to your photo library"))
-//    }
     .onReceive(model.$videoSaved) { saved in
       if saved {
         model.showingSavedAlert = true
