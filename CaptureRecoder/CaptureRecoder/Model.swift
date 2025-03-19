@@ -350,7 +350,8 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
           filter.setValue(1.0, forKey: kCIInputRadiusKey)
         case .thermal:
           filter.setValue(CIColor.red, forKey: "inputColor0")
-          filter.setValue(CIColor.yellow, forKey: "inputColor1")
+//          filter.setValue(CIColor.yellow, forKey: "inputColor1")
+          filter.setValue(CIColor.green, forKey: "inputColor1")
         default:
           break
         }
