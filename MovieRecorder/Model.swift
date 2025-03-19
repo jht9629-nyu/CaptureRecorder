@@ -43,19 +43,21 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   private var videoInput: AVCaptureDeviceInput?
   private var currentEffect: VideoEffect = .normal
   private var videoWriter: AVAssetWriter?
-  private var videoWriterInput: AVAssetWriterInput?
-  private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
+  //  private var videoWriterInput: AVAssetWriterInput?
+  //  private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
   private var context: CIContext?
   
+  // -- AVAssetWriter
   private var assetWriter: AVAssetWriter?
-//  private var videoWriterInput: AVAssetWriterInput?
+  private var videoWriterInput: AVAssetWriterInput?
   private var audioWriterInput: AVAssetWriterInput?
-//  private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
-  
-  private var currentFilter: FilterType = .normal
-
+  private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
+//  private var currentFilter: FilterType = .comic
+  private var isSessionReady = false
+  private var isRecordingSession = false
+  private var videoURL: URL?
   private var startTime: CMTime?
-
+  
   override init() {
     super.init()
     context = CIContext(options: nil)
@@ -102,18 +104,6 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
       }
     }
     
-    // Add audio input
-    //    if let audioDevice = AVCaptureDevice.default(for: .audio) {
-    //      do {
-    //        let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-    //        if session.canAddInput(audioInput) {
-    //          session.addInput(audioInput)
-    //        }
-    //      } catch {
-    //        print("Error setting up audio input: \(error)")
-    //      }
-    //    }
-    
     // Add video data output for processing frames
     videoDataOutput = AVCaptureVideoDataOutput()
     videoDataOutput?.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
@@ -154,16 +144,100 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
     let tempFilePath = (tempDirectory as NSString).appendingPathComponent("video.mp4")
     let fileURL = URL(fileURLWithPath: tempFilePath)
     
+    print("startRecording fileURL: \(fileURL)")
+    
     // Remove existing file
     if FileManager.default.fileExists(atPath: tempFilePath) {
       try? FileManager.default.removeItem(atPath: tempFilePath)
     }
     
-    videoOutput.startRecording(to: fileURL, recordingDelegate: self)
+    //    videoOutput.startRecording(to: fileURL, recordingDelegate: self)
+    startRecording_asset(fileURL);
+  }
+  
+  func startRecording_asset(_ fileURL: URL ) {
+    print("startRecording_asset fileURL: \(fileURL)")
+    videoURL = fileURL;
+    guard let videoURL = videoURL else { return }
+    
+    do {
+      // Create asset writer
+      assetWriter = try AVAssetWriter(outputURL: videoURL, fileType: .mp4)
+      
+      // Video settings
+      let videoSettings: [String: Any] = [
+        AVVideoCodecKey: AVVideoCodecType.h264,
+        AVVideoWidthKey: 1920,
+        AVVideoHeightKey: 1080
+      ]
+      
+      // Create video writer input
+      videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
+      videoWriterInput?.expectsMediaDataInRealTime = true
+      
+      // Create pixel buffer adaptor for filter application
+      let sourcePixelBufferAttributes: [String: Any] = [
+        kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA),
+        kCVPixelBufferWidthKey as String: 1920,
+        kCVPixelBufferHeightKey as String: 1080
+      ]
+      
+      pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
+        assetWriterInput: videoWriterInput!,
+        sourcePixelBufferAttributes: sourcePixelBufferAttributes
+      )
+      
+      if assetWriter!.canAdd(videoWriterInput!) {
+        assetWriter!.add(videoWriterInput!)
+      }
+      
+      // Audio settings -- disabled
+      
+      // Start writing
+      assetWriter!.startWriting()
+      assetWriter!.startSession(atSourceTime: .zero)
+      
+      isRecordingSession = true
+      startTime = nil
+      
+    } catch {
+      print("Error setting up asset writer: \(error)")
+      assetWriter = nil
+      videoWriterInput = nil
+      audioWriterInput = nil
+      pixelBufferAdaptor = nil
+    }
+    
+  }
+  
+  func stopRecording_asset() {
+    isRecordingSession = false
+    videoWriterInput?.markAsFinished()
+    audioWriterInput?.markAsFinished()
+    assetWriter?.finishWriting { [weak self] in
+      DispatchQueue.main.async {
+        // Save video to photo library
+//        if let videoURL = self?.videoURL {
+//          UISaveVideoAtPathToSavedPhotosAlbum(videoURL.path, nil, nil, nil)
+//          print("Video saved at: \(videoURL)")
+//        }
+        self?.saveRecordingToPhotos()
+        self?.assetWriter = nil
+        self?.videoWriterInput = nil
+        self?.audioWriterInput = nil
+        self?.pixelBufferAdaptor = nil
+        self?.startTime = nil
+      }
+    }
   }
   
   func stopRecording() {
-    videoOutput?.stopRecording()
+    if isRecordingSession {
+      stopRecording_asset()
+    }
+    else {
+      videoOutput?.stopRecording()
+    }
   }
   
   // MARK: - AVCaptureFileOutputRecordingDelegate
@@ -173,8 +247,26 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
       print("Error recording video: \(error!)")
       return
     }
+    print("fileOutput outputFileURL: \(outputFileURL)")
+//    PHPhotoLibrary.shared().performChanges({
+//      PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
+//    }) { saved, error in
+//      if saved {
+//        DispatchQueue.main.async {
+//          self.videoSaved = true
+//        }
+//      } else if let error = error {
+//        print("Error saving video to library: \(error)")
+//      }
+//    }
+  }
+  
+  func saveRecordingToPhotos() {
+    print("saveRecordingToPhotos videoURL:", videoURL as Any)
     PHPhotoLibrary.shared().performChanges({
-      PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
+      if let videoURL = self.videoURL {
+        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL)
+      }
     }) { saved, error in
       if saved {
         DispatchQueue.main.async {
@@ -190,11 +282,25 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    
     guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
     else { return }
+    
+    if isRecordingSession {
+      processVideoFrame(sampleBuffer)
+      return;
+    }
+    
+    let (_, _) = filterImage(pixelBuffer)
+    
+  }
+  
+  // Apply the filter and preview
+  //
+  func filterImage(_ pixelBuffer: CVPixelBuffer) -> (CIImage,Bool) {
     let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-    // Apply effect
-    var filteredImage: CIImage = ciImage
+    var filteredImage = ciImage
+    var changed = false
     if let filterName = currentEffect.filterName {
       //      print("filterName: \(filterName)")
       if let filter = CIFilter(name: filterName) {
@@ -213,43 +319,28 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         if let outputImage = filter.outputImage {
           filteredImage = outputImage
+          changed = true
           //          print("outputImage = filter.outputImage")
         } else {
           print("no filter.outputImage")
         }
       } else {
-        print("filter = CIFilter(name: filterName)")
+        print("no filter = CIFilter(name: filterName)")
       }
     }
     
-    // Render filtered image back to the pixel buffer
-    guard let context = context else { return  }
-    //    context.render(filteredImage, to: pixelBuffer)
-    
-    //    let orientedImage = filteredImage.oriented(.up) // Change this based on the actual orientation
-    // Create UIImage for preview
-    //    if let cgImage = context.createCGImage(orientedImage, from: filteredImage.extent) {
-    if let cgImage = context.createCGImage(filteredImage, from: filteredImage.extent) {
-      //      let uiImage = UIImage(cgImage: cgImage)
+    // Dispatch update to preview
+    if let cgImage = context!.createCGImage(filteredImage, from: filteredImage.extent) {
       DispatchQueue.main.async {
         self.previewImage = cgImage
       }
     }
+    
+    return (filteredImage,changed)
   }
 }
 
-
-//
-
-// Enum for available filters
-enum FilterType: String, CaseIterable {
-  case normal = "Normal"
-  case sepia = "Sepia"
-  case noir = "Noir"
-  case comic = "Comic"
-  case thermal = "Thermal"
-  case vibrant = "Vibrant"
-}
+// --
 
 extension Model {
   func processVideoFrame(_ sampleBuffer: CMSampleBuffer) {
@@ -266,65 +357,26 @@ extension Model {
     
     // Apply filter based on selection
     var filteredBuffer = pixelBuffer
+    let (filteredImage, changed) = filterImage(pixelBuffer)
     
-    if currentFilter != .normal {
-      // Create CIImage from pixel buffer
-      let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-      var filteredImage: CIImage?
+    if changed {
+      // Create a new pixel buffer
+      var newPixelBuffer: CVPixelBuffer?
+      CVPixelBufferCreate(kCFAllocatorDefault,
+                          CVPixelBufferGetWidth(pixelBuffer),
+                          CVPixelBufferGetHeight(pixelBuffer),
+                          kCVPixelFormatType_32BGRA,
+                          nil,
+                          &newPixelBuffer)
       
-      switch currentFilter {
-      case .sepia:
-        let filter = CIFilter.sepiaTone()
-        filter.inputImage = ciImage
-        filter.intensity = 0.8
-        filteredImage = filter.outputImage
-        
-      case .noir:
-        let filter = CIFilter.photoEffectNoir()
-        filter.inputImage = ciImage
-        filteredImage = filter.outputImage
-        
-      case .comic:
-        let filter = CIFilter.comicEffect()
-        filter.inputImage = ciImage
-        filteredImage = filter.outputImage
-        
-      case .thermal:
-        let filter = CIFilter.falseColor()
-        filter.inputImage = ciImage
-        filter.setValue(CIColor.red, forKey: "inputColor0")
-        filter.setValue(CIColor.yellow, forKey: "inputColor1")
-        filteredImage = filter.outputImage
-        
-      case .vibrant:
-        let filter = CIFilter.vibrance()
-        filter.inputImage = ciImage
-        filter.setValue(50, forKey: "inputAmount")
-        filteredImage = filter.outputImage
-        
-      default:
-        filteredImage = ciImage
-      }
-      
-      if let filteredImage = filteredImage {
-        // Create a new pixel buffer
-        var newPixelBuffer: CVPixelBuffer?
-        CVPixelBufferCreate(kCFAllocatorDefault,
-                            CVPixelBufferGetWidth(pixelBuffer),
-                            CVPixelBufferGetHeight(pixelBuffer),
-                            kCVPixelFormatType_32BGRA,
-                            nil,
-                            &newPixelBuffer)
-        
-        if let newPixelBuffer = newPixelBuffer {
-          context!.render(filteredImage, to: newPixelBuffer)
-          filteredBuffer = newPixelBuffer
-        }
+      if let newPixelBuffer {
+        context!.render(filteredImage, to: newPixelBuffer)
+        filteredBuffer = newPixelBuffer
       }
     }
     
     // Append filtered buffer to asset writer
-    if let pixelBufferAdaptor = pixelBufferAdaptor {
+    if let pixelBufferAdaptor {
       pixelBufferAdaptor.append(filteredBuffer, withPresentationTime: adjustedTime)
     }
   }
