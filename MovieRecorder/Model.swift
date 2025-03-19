@@ -308,7 +308,7 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
         // Set additional parameters for specific filters
         switch currentEffect {
         case .pixellate:
-          filter.setValue(10, forKey: kCIInputScaleKey)
+          filter.setValue(30, forKey: kCIInputScaleKey)
         case .sepia:
           filter.setValue(0.7, forKey: kCIInputIntensityKey)
         case .vignette:

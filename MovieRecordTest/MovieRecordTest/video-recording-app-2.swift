@@ -96,10 +96,6 @@ struct CameraPreviewView: UIViewRepresentable {
         cameraModel.preview = AVCaptureVideoPreviewLayer(session: cameraModel.session)
         cameraModel.preview.frame = view.frame
         cameraModel.preview.videoGravity = .resizeAspectFill
-        
-        // Set orientation for preview
-        cameraModel.preview.connection?.videoOrientation = .portrait
-        
         view.layer.addSublayer(cameraModel.preview)
         
         // Start session
@@ -113,9 +109,6 @@ struct CameraPreviewView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: Context) {
         // Update filter if needed
         cameraModel.updateFilter(to: selectedFilter)
-        
-        // Ensure preview layer fills the view
-        cameraModel.preview.frame = uiView.bounds
     }
 }
 
@@ -143,52 +136,22 @@ class CameraModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBuf
     private var videoURL: URL?
     private var startTime: CMTime?
     
-    // Track current device orientation
-    private var currentDeviceOrientation: UIDeviceOrientation {
-        return UIDevice.current.orientation
-    }
-    
-    // Convert device orientation to video orientation
-    private var currentVideoOrientation: AVCaptureVideoOrientation {
-        switch currentDeviceOrientation {
-        case .portrait:
-            return .portrait
-        case .portraitUpsideDown:
-            return .portraitUpsideDown
-        case .landscapeLeft:
-            return .landscapeRight // Note: These are reversed due to camera orientation
-        case .landscapeRight:
-            return .landscapeLeft // Note: These are reversed due to camera orientation
-        default:
-            return .portrait
+    // Video dimensions - use device native resolution
+    private var videoDimensions: CMVideoDimensions {
+        guard let videoDevice = videoDevice else {
+            return CMVideoDimensions(width: 1920, height: 1080)
         }
+        
+        guard let format = videoDevice.activeFormat.formatDescription as CFTypeRef else {
+            return CMVideoDimensions(width: 1920, height: 1080)
+        }
+        
+        return CMVideoFormatDescriptionGetDimensions(format)
     }
     
     override init() {
         super.init()
         setupSession()
-        // Start orientation notifications
-        NotificationCenter.default.addObserver(self, 
-                                              selector: #selector(deviceOrientationChanged), 
-                                              name: UIDevice.orientationDidChangeNotification, 
-                                              object: nil)
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-        UIDevice.current.endGeneratingDeviceOrientationNotifications()
-    }
-    
-    @objc private func deviceOrientationChanged() {
-        if let connection = videoOutput.connection(with: .video), connection.isVideoOrientationSupported {
-            connection.videoOrientation = currentVideoOrientation
-        }
-        
-        // Update preview orientation
-        if let connection = preview?.connection, connection.isVideoOrientationSupported {
-            connection.videoOrientation = currentVideoOrientation
-        }
     }
     
     func checkPermissions() {
@@ -260,7 +223,7 @@ class CameraModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBuf
             session.addOutput(videoOutput)
             if let connection = videoOutput.connection(with: .video) {
                 if connection.isVideoOrientationSupported {
-                    connection.videoOrientation = currentVideoOrientation
+                    connection.videoOrientation = .portrait
                 }
                 if connection.isVideoStabilizationSupported {
                     connection.preferredVideoStabilizationMode = .auto
@@ -306,7 +269,7 @@ class CameraModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBuf
         // Fix video orientation
         if let connection = videoOutput.connection(with: .video) {
             if connection.isVideoOrientationSupported {
-                connection.videoOrientation = currentVideoOrientation
+                connection.videoOrientation = .portrait
             }
             if connection.isVideoMirroringSupported && newPosition == .front {
                 connection.isVideoMirrored = true
@@ -332,33 +295,17 @@ class CameraModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBuf
             // Create asset writer
             assetWriter = try AVAssetWriter(outputURL: videoURL, fileType: .mp4)
             
-            // Get video dimensions from the session preset
-            var naturalSize: CGSize
+            // Get the natural dimensions from the camera
+            let dimensions = videoDimensions
+            let width = Int(dimensions.width)
+            let height = Int(dimensions.height)
             
-            switch session.sessionPreset {
-            case .hd1920x1080:
-                naturalSize = CGSize(width: 1920, height: 1080)
-            case .hd1280x720:
-                naturalSize = CGSize(width: 1280, height: 720)
-            case .vga640x480:
-                naturalSize = CGSize(width: 640, height: 480)
-            default:
-                naturalSize = CGSize(width: 1280, height: 720) // Default to HD
-            }
-            
-            // Adjust dimensions for orientation if needed
-            let isPortrait = currentVideoOrientation == .portrait || currentVideoOrientation == .portraitUpsideDown
-            
-            if isPortrait {
-                // Swap dimensions for portrait orientation
-                naturalSize = CGSize(width: naturalSize.height, height: naturalSize.width)
-            }
-            
-            // Video settings using adjusted dimensions
+            // Use transformations to handle orientation
+            // For portrait recording, we need to swap width and height
             let videoSettings: [String: Any] = [
                 AVVideoCodecKey: AVVideoCodecType.h264,
-                AVVideoWidthKey: naturalSize.width,
-                AVVideoHeightKey: naturalSize.height,
+                AVVideoWidthKey: height, // Swap for portrait
+                AVVideoHeightKey: width, // Swap for portrait
                 AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
             ]
             
@@ -366,14 +313,14 @@ class CameraModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBuf
             videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
             videoWriterInput?.expectsMediaDataInRealTime = true
             
-            // Set proper transform based on orientation
-            videoWriterInput?.transform = transformForOrientation(currentVideoOrientation)
+            // Set transform to handle orientation
+            videoWriterInput?.transform = CGAffineTransform(rotationAngle: .pi/2) // 90 degrees
             
             // Create pixel buffer adaptor for filter application
             let sourcePixelBufferAttributes: [String: Any] = [
                 kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA),
-                kCVPixelBufferWidthKey as String: Int(naturalSize.width),
-                kCVPixelBufferHeightKey as String: Int(naturalSize.height)
+                kCVPixelBufferWidthKey as String: width,
+                kCVPixelBufferHeightKey as String: height
             ]
             
             pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
@@ -414,22 +361,6 @@ class CameraModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBuf
             videoWriterInput = nil
             audioWriterInput = nil
             pixelBufferAdaptor = nil
-        }
-    }
-    
-    // Helper function to get proper transform for the current orientation
-    private func transformForOrientation(_ orientation: AVCaptureVideoOrientation) -> CGAffineTransform {
-        switch orientation {
-        case .portrait:
-            return CGAffineTransform(rotationAngle: .pi/2) // 90 degrees
-        case .portraitUpsideDown:
-            return CGAffineTransform(rotationAngle: -.pi/2) // -90 degrees
-        case .landscapeRight:
-            return CGAffineTransform(rotationAngle: .pi) // 180 degrees
-        case .landscapeLeft:
-            return CGAffineTransform.identity // 0 degrees
-        @unknown default:
-            return CGAffineTransform.identity
         }
     }
     
