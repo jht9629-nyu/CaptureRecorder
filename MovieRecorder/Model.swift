@@ -135,7 +135,6 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   func changeEffect(to effect: VideoEffect) {
     currentEffect = effect
     selectedEffect = effect
-    //    previewImage = nil
   }
   
   func startRecording() {
@@ -164,7 +163,6 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
       print("Error recording video: \(error!)")
       return
     }
-    
     PHPhotoLibrary.shared().performChanges({
       PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
     }) { saved, error in
@@ -182,8 +180,7 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    guard  // currentEffect != .normal,
-      let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
     else { return }
     let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
     // Apply effect
@@ -213,8 +210,6 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
       } else {
         print("filter = CIFilter(name: filterName)")
       }
-    } else {
-      print("currentEffect.filterName")
     }
     
     // Render filtered image back to the pixel buffer
@@ -230,6 +225,5 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.previewImage = cgImage
       }
     }
-    
   }
 }
