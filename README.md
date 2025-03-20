@@ -8,6 +8,7 @@
 ## Sources
 
 - mainly claude.ai with alot of debugging
+- FrameView [08-FilterTheWorld](https://github.com/mobilelabclass-itp/08-FilterTheWorld)
 
 ## CoreImageFilterReference documentation
 

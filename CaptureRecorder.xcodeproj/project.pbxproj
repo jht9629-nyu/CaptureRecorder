@@ -11,14 +11,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AB799ED82D8B2EDE005D15E9 /* CaptureRecoder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureRecoder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB799ED82D8B2EDE005D15E9 /* CaptureRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB799F212D8CA5D5005D15E9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AB799EDA2D8B2EDE005D15E9 /* CaptureRecoder */ = {
+		AB799EDA2D8B2EDE005D15E9 /* CaptureRecorder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CaptureRecoder;
+			path = CaptureRecorder;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -38,7 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				AB799F212D8CA5D5005D15E9 /* README.md */,
-				AB799EDA2D8B2EDE005D15E9 /* CaptureRecoder */,
+				AB799EDA2D8B2EDE005D15E9 /* CaptureRecorder */,
 				AB799ED92D8B2EDE005D15E9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,7 +46,7 @@
 		AB799ED92D8B2EDE005D15E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB799ED82D8B2EDE005D15E9 /* CaptureRecoder.app */,
+				AB799ED82D8B2EDE005D15E9 /* CaptureRecorder.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,9 +54,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AB799ED72D8B2EDE005D15E9 /* CaptureRecoder */ = {
+		AB799ED72D8B2EDE005D15E9 /* CaptureRecorder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AB799EE62D8B2EDF005D15E9 /* Build configuration list for PBXNativeTarget "CaptureRecoder" */;
+			buildConfigurationList = AB799EE62D8B2EDF005D15E9 /* Build configuration list for PBXNativeTarget "CaptureRecorder" */;
 			buildPhases = (
 				AB799ED42D8B2EDE005D15E9 /* Sources */,
 				AB799ED52D8B2EDE005D15E9 /* Frameworks */,
@@ -67,13 +67,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				AB799EDA2D8B2EDE005D15E9 /* CaptureRecoder */,
+				AB799EDA2D8B2EDE005D15E9 /* CaptureRecorder */,
 			);
-			name = CaptureRecoder;
+			name = CaptureRecorder;
 			packageProductDependencies = (
 			);
 			productName = CaptureRecoder;
-			productReference = AB799ED82D8B2EDE005D15E9 /* CaptureRecoder.app */;
+			productReference = AB799ED82D8B2EDE005D15E9 /* CaptureRecorder.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -91,7 +91,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AB799ED32D8B2EDE005D15E9 /* Build configuration list for PBXProject "CaptureRecoder" */;
+			buildConfigurationList = AB799ED32D8B2EDE005D15E9 /* Build configuration list for PBXProject "CaptureRecorder" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -105,7 +105,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AB799ED72D8B2EDE005D15E9 /* CaptureRecoder */,
+				AB799ED72D8B2EDE005D15E9 /* CaptureRecorder */,
 			);
 		};
 /* End PBXProject section */
@@ -258,7 +258,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CaptureRecoder/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CaptureRecorder/Preview Content\"";
 				DEVELOPMENT_TEAM = 3RCW2SSL8G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -275,7 +275,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jht1900.CaptureRecoder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jht1900.CaptureRecorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -290,7 +290,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CaptureRecoder/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CaptureRecorder/Preview Content\"";
 				DEVELOPMENT_TEAM = 3RCW2SSL8G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -307,7 +307,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jht1900.CaptureRecoder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jht1900.CaptureRecorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -318,7 +318,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AB799ED32D8B2EDE005D15E9 /* Build configuration list for PBXProject "CaptureRecoder" */ = {
+		AB799ED32D8B2EDE005D15E9 /* Build configuration list for PBXProject "CaptureRecorder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB799EE42D8B2EDF005D15E9 /* Debug */,
@@ -327,7 +327,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AB799EE62D8B2EDF005D15E9 /* Build configuration list for PBXNativeTarget "CaptureRecoder" */ = {
+		AB799EE62D8B2EDF005D15E9 /* Build configuration list for PBXNativeTarget "CaptureRecorder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB799EE72D8B2EDF005D15E9 /* Debug */,
