@@ -5,6 +5,10 @@
 - minminal ObservableObject Model
 - no need for Combine!
 
+## Plan
+
+- slider for filter param
+
 ## Sources
 
 - mainly claude.ai with alot of debugging
@@ -16,6 +20,9 @@
 -- list each filter and their parameters
 
 ## Changes
+
+
+- added app icon
 
 - in ContentView re-org FilterSelectionView, RecordButtonView
 ```
