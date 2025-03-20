@@ -6,9 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB799F222D8CA5D5005D15E9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AB799F212D8CA5D5005D15E9 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		AB799ED82D8B2EDE005D15E9 /* CaptureRecoder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureRecoder.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB799F002D8B72EC005D15E9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
+		AB799F212D8CA5D5005D15E9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,7 +37,7 @@
 		AB799ECF2D8B2EDE005D15E9 = {
 			isa = PBXGroup;
 			children = (
-				AB799F002D8B72EC005D15E9 /* README.md */,
+				AB799F212D8CA5D5005D15E9 /* README.md */,
 				AB799EDA2D8B2EDE005D15E9 /* CaptureRecoder */,
 				AB799ED92D8B2EDE005D15E9 /* Products */,
 			);
@@ -111,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB799F222D8CA5D5005D15E9 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

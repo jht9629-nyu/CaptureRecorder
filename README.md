@@ -1,9 +1,28 @@
 # CaptureRecoder
 
+- apply core image filters to live video stream from camera
+- also record button to save video to Photo library
+- minminal ObservableObject Model
+- no need for Combine!
+
+## Sources
+
+- mainly claude.ai with alot of debugging
+
 ## CoreImageFilterReference documentation
 
 - [CoreImageFilterReference  ref](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html)
 -- list each filter and their parameters
+
+## Changes
+
+- in ContentView re-org FilterSelectionView, RecordButtonView
+```
+func FilterSelectionView() -> some View {}
+func RecordButtonView() -> some View {}
+```
+
+- moved MovieRecorder to z-archived
 
 ## rename in xcode is hell!
 ```
