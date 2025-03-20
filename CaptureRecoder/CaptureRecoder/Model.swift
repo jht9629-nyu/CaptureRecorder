@@ -11,27 +11,6 @@ import Photos
 import CoreImage.CIFilterBuiltins
 
 
-enum VideoEffect: String, CaseIterable {
-  case normal = "Normal"
-  case pixellate = "Pixellate"
-  case thermal = "Thermal"
-  case comic = "Comic"
-  case sepia = "Sepia"
-  case mono = "Mono"
-  case vignette = "Vignette"
-  
-  var filterName: String? {
-    switch self {
-    case .normal: return nil
-    case .pixellate: return "CIPixellate"
-    case .thermal: return "CIFalseColor"
-    case .comic: return "CIComicEffect"
-    case .sepia: return "CISepiaTone"
-    case .mono: return "CIPhotoEffectMono"
-    case .vignette: return "CIVignette"
-    }
-  }
-}
 
 class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   @Published var session = AVCaptureSession()
@@ -39,17 +18,17 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   @Published var previewImage: CGImage?
   @Published var showingSavedAlert = false
   @Published var selectedEffect: VideoEffect = .normal
-  
+  var currentEffect: VideoEffect = .normal
+  var context: CIContext?
+
   private var videoDevice: AVCaptureDevice?
 
   var videoOutput: AVCaptureMovieFileOutput?
   var videoDataOutput: AVCaptureVideoDataOutput?
   private var videoInput: AVCaptureDeviceInput?
-  private var currentEffect: VideoEffect = .normal
   private var videoWriter: AVAssetWriter?
   //  private var videoWriterInput: AVAssetWriterInput?
   //  private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
-  private var context: CIContext?
   
   // -- AVAssetWriter
   private var assetWriter: AVAssetWriter?
@@ -146,7 +125,7 @@ class Model: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
   }
   
   func startRecording() {
-    guard let videoOutput = videoOutput else { return }
+//    guard let videoOutput = videoOutput else { return }
     
     let tempDirectory = NSTemporaryDirectory()
     let tempFilePath = (tempDirectory as NSString).appendingPathComponent("video.mp4")
@@ -328,55 +307,8 @@ extension Model: AVCaptureVideoDataOutputSampleBufferDelegate {
     let (_, _) = filterImage(pixelBuffer)
     
   }
-  
-  // Apply the filter and preview
-  //
-  func filterImage(_ pixelBuffer: CVPixelBuffer) -> (CIImage,Bool) {
-    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-    var filteredImage = ciImage
-    var changed = false
-    if let filterName = currentEffect.filterName {
-      //      print("filterName: \(filterName)")
-      if let filter = CIFilter(name: filterName) {
-        filter.setValue(ciImage, forKey: kCIInputImageKey)
-        // Set additional parameters for specific filters
-        switch currentEffect {
-        case .pixellate:
-          filter.setValue(30, forKey: kCIInputScaleKey)
-        case .sepia:
-          filter.setValue(0.7, forKey: kCIInputIntensityKey)
-        case .vignette:
-          filter.setValue(0.5, forKey: kCIInputIntensityKey)
-          filter.setValue(1.0, forKey: kCIInputRadiusKey)
-        case .thermal:
-          filter.setValue(CIColor.red, forKey: "inputColor0")
-//          filter.setValue(CIColor.yellow, forKey: "inputColor1")
-          filter.setValue(CIColor.green, forKey: "inputColor1")
-        default:
-          break
-        }
-        if let outputImage = filter.outputImage {
-          filteredImage = outputImage
-          changed = true
-          //          print("outputImage = filter.outputImage")
-        } else {
-          print("no filter.outputImage")
-        }
-      } else {
-        print("no filter = CIFilter(name: filterName)")
-      }
-    }
-    
-    // Dispatch update to preview
-    if let cgImage = context!.createCGImage(filteredImage, from: filteredImage.extent) {
-      DispatchQueue.main.async {
-        self.previewImage = cgImage
-      }
-    }
-    
-    return (filteredImage,changed)
-  }
 }
+
 
 // --
 
