@@ -1,7 +1,14 @@
 # CaptureRecoder
 
+## CoreImageFilterReference documentation
+
+- [CoreImageFilterReference  ref](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html)
+-- list each filter and their parameters
+
 ## rename in xcode is hell!
 ```
+
+>> delete unused CameraPreviewView.swift
 >> rename from MovieRecorder to CaptureRecorder
 >> created new project and copy source files
 

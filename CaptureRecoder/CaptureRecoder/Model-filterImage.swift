@@ -35,9 +35,9 @@ enum VideoEffect: String, CaseIterable {
   }
 }
 
+// Apply the filter and preview
+//
 extension Model {
-  // Apply the filter and preview
-  //
   func filterImage(_ pixelBuffer: CVPixelBuffer) -> (CIImage,Bool) {
     let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
     var filteredImage = ciImage
@@ -93,3 +93,7 @@ extension Model {
     return (filteredImage,changed)
   }
 }
+
+// https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html
+
+
