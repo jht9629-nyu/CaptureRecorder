@@ -1,14 +1,14 @@
-# CaptureRecoder
+# CaptureRecorder
 
 - apply core image filters to live video stream from camera
-- also record button to save video to Photo library
+- record button to save video to Photo library
 - minminal ObservableObject Model
 - no need for Combine!
 
 ## Sources
 
 - mainly claude.ai with alot of debugging
-- FrameView [08-FilterTheWorld](https://github.com/mobilelabclass-itp/08-FilterTheWorld)
+- preview using FrameView from [08-FilterTheWorld](https://github.com/mobilelabclass-itp/08-FilterTheWorld)
 
 ## CoreImageFilterReference documentation
 
@@ -30,7 +30,7 @@ func RecordButtonView() -> some View {}
 
 >> delete unused CameraPreviewView.swift
 >> rename from MovieRecorder to CaptureRecorder
->> created new project and copy source files
+>> created new project and copied source files
 
 >> need fix permissions:
 
