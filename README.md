@@ -1,4 +1,4 @@
-# CaptureRecorder
+# [CaptureRecorder](https://github.com/jht9629-nyu/CaptureRecorder.git)
 
 - apply core image filters to live video stream from camera
 - record button to save video to Photo library
@@ -16,15 +16,15 @@
 
 ## CoreImageFilterReference documentation
 
-- [CoreImageFilterReference  ref](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html)
--- list each filter and their parameters
+- [CoreImageFilterReference ref](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html)
+  -- list each filter and their parameters
 
 ## Changes
-
 
 - added app icon
 
 - in ContentView re-org FilterSelectionView, RecordButtonView
+
 ```
 func FilterSelectionView() -> some View {}
 func RecordButtonView() -> some View {}
@@ -33,6 +33,7 @@ func RecordButtonView() -> some View {}
 - moved MovieRecorder to z-archived
 
 ## rename in xcode is hell!
+
 ```
 
 >> delete unused CameraPreviewView.swift
@@ -72,6 +73,7 @@ This app has crashed because it attempted to access privacy-sensitive data witho
 >> FrameView
 >> from: [08-FilterTheWorld](https://github.com/mobilelabclass-itp/08-FilterTheWorld)
 ```
+
 ## filtered-video-recorder-app.swift
 
 In AVFoundation AVCaptureSession AVCaptureFileOutputRecordingDelegate correctly apply filters to sample in captureOutput
